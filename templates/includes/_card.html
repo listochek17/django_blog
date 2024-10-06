@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="card">
+    {% if article.preview %}
+        <img src="{{ article.preview.url }}" class="card-img-top article-img" alt="...">
+    {% else %}
+        <img src="{% static 'images/placeholder.jpeg' %}" class="card-img-top" alt="...">
+    {% endif %}
+
+    <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="card-text">{{ article.short_description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <b>Кол-во просмотров:</b> {{ article.views }}
+        </li>
+        <li class="list-group-item">
+            <b>Дата создания:</b> <br>{{ article.created_at }}
+        </li>
+        <li class="list-group-item">
+            <b>Категория:</b> {{ article.category }}
+        </li>
+        <li class="list-group-item">
+            <b>Автор:</b> {{ article.author }}
+        </li>
+    </ul>
+    <div class="card-body">
+        <a href="{% url 'detail' article.pk %}" class="card-link">Подробнее</a>
+    </div>
+</div>

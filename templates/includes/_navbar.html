@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% include './_categories.html' %}
+
+        <div class="d-flex column-gap-2">
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}" class="btn btn-success">Войти</a>
+            <a href="{% url 'registration' %}" class="btn btn-warning">Регистрация</a>
+            {% else %}
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    {{ request.user.username }}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'create' %}">Создать статью</a></li>
+                    <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}">Профиль</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                </ul>
+            </div>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
+
+            {% endif %}
+        </div>
+    </div>
+
+</nav>
+<div class="container mt-2">
+    <form class="d-flex" role="search" action="{% url 'search' %}">
+        <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <div class="d-flex align-items-center gap-3">
+        <h2>Вы недавно искали: </h2>
+        <div class="d-flex gap-3">
+            {% for i in history %}
+            <a href="?q={{ i }}">{{ i }}</a>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{# cd ../ #}
